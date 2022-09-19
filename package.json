@@ -1,15 +1,23 @@
 {
-  "name": "blockchain-lib",
-  "version": "1.0.0",
-  "description": "",
+  "name": "@guerrerocarlos/blockchainlib",
+  "version": "1.0.1",
+  "description": "Build and push block to blockchain",
   "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
+  "author": "guerrerocarlos <npm@carlosguerrero.com>",
   "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guerrerocarlos/blockchain-lib.git"
+  },
+  "scripts": {
+    "pub": "npm version patch --force && npm publish --access public"
+  },
   "dependencies": {
     "@peculiar/webcrypto": "^1.4.0",
     "axios": "^0.27.2"
-  }
+  },
+  "keywords": [
+    "blockchain",
+    "javascript"
+  ]
 }

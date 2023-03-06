@@ -61,25 +61,25 @@ async function sign(WHO, blockData, params, pathToPrivKey) {
   let blockToSign = {
     prevHash: params.prevHash,
     height: params.height,
-    version: 1,
+    version: 2,
     data: blockData,
     timestamp: new Date().getTime(),
     scope: params.scope,
+    by: WHO
   };
 
   let signature0 = await subtle.sign(
     {
       name: "RSA-PSS",
-      saltLength: 128, //the length of the salt
+      saltLength: 32,
     },
-    await getPrivateKey(pathToPrivKey), //from generateKey or importKey above
-    Buffer.from(JSON.stringify(blockToSign, null, 2)) //ArrayBuffer of data you want to sign
+    await getPrivateKey(pathToPrivKey),
+    Buffer.from(JSON.stringify(blockToSign, null, 2))
   );
 
   let signature64 = Buffer.from(signature0).toString("base64");
 
   blockToSign.signature = signature64;
-  blockToSign.by = WHO;
 
   return blockToSign;
 }
@@ -98,8 +98,6 @@ async function clientSign(who, scope, blockContent, pathToPrivKey) {
     height = 0;
   }
 
-  let rootHead = await fetch(NODE + `/_head/root`);
-
   const block = await sign(
     who,
     blockContent,
@@ -112,16 +110,6 @@ async function clientSign(who, scope, blockContent, pathToPrivKey) {
     pathToPrivKey
   );
 
-  head = rootHead.head ?? "";
-  height = rootHead.height;
-
-  if (height === undefined) {
-    height = 0;
-  }
-
-  block.rootPrevHash = head ?? "";
-  block.rootHeight = parseInt(height) + 1;
-  block.by = who;
   block.hash = generateHash(block);
 
   return block;

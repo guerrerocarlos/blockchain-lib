@@ -1,6 +1,6 @@
 {
   "name": "@guerrerocarlos/blockchainlib",
-  "version": "1.0.4",
+  "version": "2.0.0",
   "description": "Build and push block to blockchain",
   "main": "index.js",
   "author": "guerrerocarlos <npm@carlosguerrero.com>",
